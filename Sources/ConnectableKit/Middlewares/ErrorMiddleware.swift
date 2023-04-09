@@ -48,7 +48,7 @@ public final class ConnectableErrorMiddleware: Vapor.AsyncMiddleware {
                         return .error
                     }
                 }()
-                let serverResponse = Responser<EmptyResponser>.ResponseDTO(status: serverStatus, message: reason)
+                let serverResponse = Responser<Connector>.ResponseDTO(status: serverStatus, message: reason)
                 let errorResponse = serverResponse
                 response.body = try .init(data: JSONEncoder().encode(errorResponse), byteBufferAllocator: req.byteBufferAllocator)
                 response.headers.replaceOrAdd(name: .contentType, value: "application/json; charset=utf-8")

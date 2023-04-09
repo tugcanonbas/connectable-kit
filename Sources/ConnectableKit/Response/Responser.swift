@@ -7,7 +7,7 @@
 
 import Vapor
 
-public struct Responser<ResponseData: Vapor.Content>: Vapor.Content, Responsable {
+public struct Responser<ResponseData: Connectable>: Vapor.Content, Responsable {
     public var httpStatus: Vapor.HTTPStatus
     public var status: ResponserStatus
     public var message: String?
@@ -20,7 +20,7 @@ public struct Responser<ResponseData: Vapor.Content>: Vapor.Content, Responsable
         self.data = data
     }
 
-    public init(_ httpStatus: Vapor.HTTPStatus = .ok, status: ResponserStatus = .success, message: String? = nil) where ResponseData == EmptyResponser {
+    public init(_ httpStatus: Vapor.HTTPStatus = .ok, status: ResponserStatus = .success, message: String? = nil) where ResponseData == Connector {
         self.httpStatus = httpStatus
         self.status = status
         self.message = message
@@ -51,4 +51,11 @@ public struct Responser<ResponseData: Vapor.Content>: Vapor.Content, Responsable
     }
 }
 
-public struct EmptyResponser: Vapor.Content {}
+public struct Connector: Connectable {
+    private init() {}
+
+    public static func toDTO(_ httpStatus: Vapor.HTTPStatus = .ok, status: ResponserStatus = .success, message: String? = nil) -> Responser<Connector> {
+        let response = Responser(httpStatus, status: status, message: message)
+        return response
+    }
+}
