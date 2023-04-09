@@ -10,7 +10,7 @@ ConnectableKit is a Swift package for the Vapor framework that simplifies the re
 
 ConnectableKit can be installed using Swift Package Manager. Simply add the following line to your Package.swift file:
 
-```
+```swift
 dependencies: [
     .package(url: "https://github.com/tugcanonbas/connectable-kit.git", from: "1.0.0")
 ]
@@ -20,7 +20,7 @@ dependencies: [
 
 To use the ConnectableKit Framework, first, import the module:
 
-```
+```swift
 import ConnectableKit
 ```
 
