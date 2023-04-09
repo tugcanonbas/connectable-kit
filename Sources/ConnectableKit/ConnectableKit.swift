@@ -15,7 +15,7 @@ public struct ConnectableKit {
         app.middleware.use(ConnectableErrorMiddleware.default(environment: app.environment))
     }
 
-    public static func configureCors(_ app: Vapor.Application, configuration: Vapor.CORSMiddleware.Configuration? = nil) {
+    public static func configureCORS(_ app: Vapor.Application, configuration: Vapor.CORSMiddleware.Configuration? = nil) {
         let corsConfiguration = configuration ?? Vapor.CORSMiddleware.Configuration(
             allowedOrigin: .all,
             allowedMethods: [.GET, .POST, .PUT, .DELETE, .OPTIONS, .PATCH],
