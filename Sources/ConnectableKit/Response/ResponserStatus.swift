@@ -1,5 +1,5 @@
 //
-//  ResponsStatus.swift
+//  ResponserStatus.swift
 //  ConnectableKit
 //
 //  Created by Tuğcan ÖNBAŞ on 09.04.2023.
