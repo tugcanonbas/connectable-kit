@@ -10,9 +10,14 @@ import Vapor
 public struct ConnectableKit {
     private init() {}
 
-    public static func configureErrorMiddleware(_ app: Vapor.Application) {
+    public static func configureErrorMiddleware(_ app: Vapor.Application, errorClosure: ConnectableErrorMiddleware.ErrorClosure? = nil) {
         app.middleware = .init()
-        app.middleware.use(ConnectableErrorMiddleware.default(environment: app.environment))
+
+        if let errorClosure = errorClosure {
+            app.middleware.use(ConnectableErrorMiddleware.custom(errorClosure: errorClosure))
+        } else {
+            app.middleware.use(ConnectableErrorMiddleware.default(environment: app.environment))
+        }
     }
 
     public static func configureCORS(_ app: Vapor.Application, configuration: Vapor.CORSMiddleware.Configuration? = nil) {

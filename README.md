@@ -155,8 +155,41 @@ public extension Connectable {
 import ConnectableKit
 ```
 
+Simply call `ConnectableKit.configureErrorMiddleware(app)` for default error handling.
+
 ```swift
 ConnectableKit.configureErrorMiddleware(app)
+```
+
+Or, you can use custom error middleware error handling with `ConnectableErrorMiddleware.ErrorClosure`.
+
+```swift
+let errorClosure: ConnectableErrorMiddleware.ErrorClosure = { error in
+            let status: Vapor.HTTPResponseStatus
+            let reason: String
+            let headers: Vapor.HTTPHeaders
+
+            switch error {
+            case let abort as Vapor.AbortError:
+                reason = abort.reason
+                status = abort.status
+                headers = abort.headers
+            case let customError as CustomError:
+                reason = customError.localizedDescription
+                status = customError.httpResponseStatus
+                headers = [:]
+            default:
+                reason = app.environment.isRelease
+                    ? "Something went wrong."
+                    : String(describing: error)
+                status = .internalServerError
+                headers = [:]
+            }
+
+            return (status, reason, headers)
+        }
+
+ConnectableKit.configureErrorMiddleware(app, errorClosure: errorClosure)
 ```
 
 Error Response Example
